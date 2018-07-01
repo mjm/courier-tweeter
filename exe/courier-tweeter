@@ -1,3 +1,4 @@
 #!/usr/bin/env ruby
 
-require "courier/tweeter"
+require 'courier/tweeter/app'
+Courier::Tweeter::App.run!
