@@ -46,6 +46,8 @@ GEM
     rack (2.0.5)
     rack-protection (2.0.3)
       rack
+    rack-test (1.0.0)
+      rack (>= 1.0, < 3)
     rake (10.5.0)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
@@ -89,6 +91,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.16)
   courier-tweeter!
+  rack-test
   rake (~> 10.0)
   rspec (~> 3.0)
 

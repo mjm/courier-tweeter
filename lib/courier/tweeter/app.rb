@@ -14,7 +14,7 @@ module Courier
         redirect '/auth/twitter'
       end
 
-      get '/auth/twitter/callback' do
+      get '/auth/:name/callback' do
         auth_hash = request.env['omniauth.auth']
         "Authenticated as #{auth_hash[:info][:name]}!<br>Token: #{auth_hash[:credentials][:token]}<br>Secret: #{auth_hash[:credentials][:secret]}"
       end

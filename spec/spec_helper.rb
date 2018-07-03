@@ -1,5 +1,6 @@
 require "bundler/setup"
 require "courier/tweeter"
+require "omniauth"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -12,3 +13,5 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+OmniAuth.config.test_mode = true
