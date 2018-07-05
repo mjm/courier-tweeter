@@ -4,6 +4,8 @@ PATH
     courier-tweeter (0.1.0)
       omniauth
       omniauth-twitter
+      pg
+      sequel
       sinatra
       twitter
 
@@ -42,6 +44,7 @@ GEM
     omniauth-twitter (1.4.0)
       omniauth-oauth (~> 1.1)
       rack
+    pg (1.0.0)
     public_suffix (3.0.2)
     rack (2.0.5)
     rack-protection (2.0.3)
@@ -62,6 +65,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
+    sequel (5.10.0)
     simple_oauth (0.3.1)
     sinatra (2.0.3)
       mustermann (~> 1.0)

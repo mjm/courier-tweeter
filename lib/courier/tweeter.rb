@@ -5,3 +5,5 @@ module Courier
     # Your code goes here...
   end
 end
+
+require 'courier/tweeter/models'
