@@ -14,6 +14,7 @@ RSpec.describe Courier::Tweeter::App do
         OmniAuth.config.mock_auth[:twitter] = OmniAuth::AuthHash.new(
           provider: 'twitter',
           info: {
+            nickname: 'jappleseed',
             name: 'John Appleseed'
           },
           credentials: {
@@ -30,9 +31,15 @@ RSpec.describe Courier::Tweeter::App do
       it 'logs in to twitter' do
         get '/auth/twitter'
         follow_redirect!
-        expect(last_response.body).to include 'Authenticated as John Appleseed'
-        expect(last_response.body).to include 'Token: foo'
-        expect(last_response.body).to include 'Secret: bar'
+
+        session = last_request.env['rack.session']
+        current_user = Courier::Tweeter::User[session[:user_id]]
+        expect(current_user).to have_attributes(
+          name: 'John Appleseed',
+          username: 'jappleseed',
+          access_token: 'foo',
+          access_token_secret: 'bar'
+        )
       end
     end
   end
