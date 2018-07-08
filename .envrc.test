@@ -1,1 +1,0 @@
-export DB_URL=postgres:///courier_tweeter_test

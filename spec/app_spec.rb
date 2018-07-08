@@ -1,11 +1,10 @@
-require 'courier/tweeter/app'
 require 'rack/test'
 
-RSpec.describe Courier::Tweeter::App do
+RSpec.describe App do
   include Rack::Test::Methods
 
   def app
-    described_class
+    App
   end
 
   describe '/auth/twitter' do
@@ -33,7 +32,7 @@ RSpec.describe Courier::Tweeter::App do
         follow_redirect!
 
         session = last_request.env['rack.session']
-        current_user = Courier::Tweeter::User[session[:user_id]]
+        current_user = User[session[:user_id]]
         expect(current_user).to have_attributes(
           name: 'John Appleseed',
           username: 'jappleseed',

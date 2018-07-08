@@ -1,4 +1,4 @@
-RSpec.describe Courier::Tweeter::User do
+RSpec.describe User do
   describe 'registering a user' do
     let(:attributes) do
       {
@@ -11,13 +11,13 @@ RSpec.describe Courier::Tweeter::User do
 
     context 'when the user does not exist' do
       it 'creates the new user' do
-        Courier::Tweeter::User.register(attributes)
-        expect(Courier::Tweeter::User.first).to have_attributes(attributes)
+        User.register(attributes)
+        expect(User.first).to have_attributes(attributes)
       end
 
       it 'returns the created user' do
-        result = Courier::Tweeter::User.register(attributes)
-        expect(result).to be_a Courier::Tweeter::User
+        result = User.register(attributes)
+        expect(result).to be_a User
         expect(result.id).to be_truthy
       end
     end
@@ -32,13 +32,13 @@ RSpec.describe Courier::Tweeter::User do
       end
 
       before do
-        Courier::Tweeter::User.register(attributes)
+        User.register(attributes)
       end
 
       it 'updates the attributes of the user' do
-        Courier::Tweeter::User.register(new_attributes)
-        expect(Courier::Tweeter::User.count).to be 1
-        expect(Courier::Tweeter::User.first).to have_attributes(new_attributes)
+        User.register(new_attributes)
+        expect(User.count).to be 1
+        expect(User.first).to have_attributes(new_attributes)
       end
     end
   end

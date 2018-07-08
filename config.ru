@@ -1,4 +1,4 @@
-$LOAD_PATH.unshift(File.expand_path('./lib'))
-require 'courier/tweeter/app'
+$LOAD_PATH.unshift(File.expand_path('.'))
+require 'app'
 
-run Courier::Tweeter::App
+run App
