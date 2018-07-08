@@ -11,9 +11,14 @@ gem 'sequel'
 gem 'sinatra'
 gem 'twitter'
 
+group :development do
+  gem 'pry'
+end
+
 group :test do
   gem 'rack-test'
   gem 'rspec', '~> 3.0'
+  gem 'webmock'
 end
 
 group :production do

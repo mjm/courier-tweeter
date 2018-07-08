@@ -6,4 +6,10 @@ class User < Sequel::Model(DB[:users])
     ).insert(attrs)
     self[id]
   end
+
+  dataset_module do
+    def lookup(username)
+      where(username: username).first
+    end
+  end
 end

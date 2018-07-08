@@ -1,11 +1,15 @@
 require 'bundler/setup'
+require 'webmock/rspec'
 
+ENV['RACK_ENV'] = 'test'
 ENV['DB_URL'] = 'postgres:///courier_tweeter_test'
 ENV['SESSION_SECRET'] = 'super secret'
 
 $LOAD_PATH.unshift File.expand_path(File.join(__FILE__, '..', '..'))
 require 'config/environment'
 require 'app'
+
+WebMock.disable_net_connect!
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

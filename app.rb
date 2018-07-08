@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'omniauth'
 require 'omniauth-twitter'
+require 'twitter'
 
 RACK_ENV = (ENV['RACK_ENV'] || 'development').to_sym
 
@@ -41,6 +42,8 @@ class App < Sinatra::Base
   end
   use JWTAuth
 
+  disable :show_exceptions
+
   get '/' do
     if request.env['jwt.payload']
       puts "Authenticated as #{request.env['jwt.payload']['sub']}"
@@ -59,5 +62,29 @@ class App < Sinatra::Base
     user = User.register(user_attrs)
     session[:user_id] = user.id
     "Authenticated as #{auth_hash[:info][:name]}!<br>Token: #{auth_hash[:credentials][:token]}<br>Secret: #{auth_hash[:credentials][:secret]}"
+  end
+
+  post '/users/:username/tweets' do
+    user = User.lookup(params[:username])
+    if user
+      client = twitter_client(user)
+      client.update(request.body.read)
+      status 201
+      'Tweet created'
+    else
+      status 404
+      'User not found'
+    end
+  end
+
+  helpers do
+    def twitter_client(user)
+      Twitter::REST::Client.new do |config|
+        config.consumer_key = ENV['TWITTER_CONSUMER_API_KEY']
+        config.consumer_secret = ENV['TWITTER_CONSUMER_API_SECRET']
+        config.access_token = user.access_token
+        config.access_token_secret = user.access_token_secret
+      end
+    end
   end
 end
