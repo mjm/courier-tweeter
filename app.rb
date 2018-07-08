@@ -20,27 +20,26 @@ def load_environment
   end
 
   require 'config/environment'
-  require 'app/middlewares/jwt'
+  Dir['app/middlewares/*.rb'].each { |middleware| require middleware }
+  Dir['app/helpers/*.rb'].each { |helper| require helper }
 end
 
 def print_jwt_token
-  return unless RACK_ENV == :development
-
   payload = { sub: 'example' }
   token = JWT.encode payload, Base64.decode64(ENV['JWT_SECRET']), 'HS256'
   puts 'You can use the following token to login:'
   puts token
 end
 
-load_environment
-print_jwt_token
-
 class App < Sinatra::Base
+  load_environment
+  print_jwt_token if development?
+
   use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
-  use OmniAuth::Builder do
-    provider :twitter, ENV['TWITTER_CONSUMER_API_KEY'], ENV['TWITTER_CONSUMER_API_SECRET']
-  end
+  use OmniAuth::Strategies::Twitter, ENV['TWITTER_CONSUMER_API_KEY'], ENV['TWITTER_CONSUMER_API_SECRET']
   use JWTAuth
+
+  helpers AuthHelpers
 
   disable :show_exceptions
 
@@ -81,43 +80,12 @@ class App < Sinatra::Base
     end
   end
 
-  helpers do
-    def current_user
-      return request.env['user'] if request.env['user']
-
-      jwt = request.env['jwt.payload']
-      return nil unless jwt
-
-      user = User.lookup(jwt['sub'])
-      return nil unless user
-
-      request.env['user'] = user
-      user
-    end
-
-    def service_client?
-      request.env.fetch('jwt.payload', {}).fetch('roles', []).include? 'service'
-    end
-
-    def check_user(user = nil)
-      return if service_client?
-
-      if user
-        return if current_user.id == user.id
-        error 403
-      else
-        return if current_user
-        error 401
-      end
-    end
-
-    def twitter_client(user)
-      Twitter::REST::Client.new do |config|
-        config.consumer_key = ENV['TWITTER_CONSUMER_API_KEY']
-        config.consumer_secret = ENV['TWITTER_CONSUMER_API_SECRET']
-        config.access_token = user.access_token
-        config.access_token_secret = user.access_token_secret
-      end
+  def twitter_client(user)
+    Twitter::REST::Client.new do |config|
+      config.consumer_key = ENV['TWITTER_CONSUMER_API_KEY']
+      config.consumer_secret = ENV['TWITTER_CONSUMER_API_SECRET']
+      config.access_token = user.access_token
+      config.access_token_secret = user.access_token_secret
     end
   end
 end
