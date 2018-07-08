@@ -1,11 +1,14 @@
 module AuthHelpers
+  def token
+    request.env['jwt.token']
+  end
+
   def current_user
     return request.env['user'] if request.env['user']
 
-    jwt = request.env['jwt.payload']
-    return nil unless jwt
+    return nil unless token
 
-    user = User.lookup(jwt['sub'])
+    user = User.lookup(token.subject)
     return nil unless user
 
     request.env['user'] = user
@@ -13,7 +16,9 @@ module AuthHelpers
   end
 
   def service_client?
-    request.env.fetch('jwt.payload', {}).fetch('roles', []).include? 'service'
+    return false unless token
+
+    token.role? :service
   end
 
   def check_user(user = nil)

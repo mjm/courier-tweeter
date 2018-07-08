@@ -27,5 +27,26 @@ class JWTAuth
     payload, = JWT.decode(token, @secret, true, algorithm: @algorithm)
 
     env['jwt.payload'] = payload
+    env['jwt.token'] = JWTToken.new(payload)
+  end
+end
+
+class JWTToken
+  attr_reader :payload
+
+  def initialize(payload)
+    @payload = payload
+  end
+
+  def subject
+    payload['sub']
+  end
+
+  def roles
+    payload.fetch('roles', [])
+  end
+
+  def role?(role)
+    roles.include? role.to_s
   end
 end

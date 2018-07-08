@@ -16,61 +16,22 @@ def print_jwt_token
   puts token
 end
 
-class App < Sinatra::Base
-  load_environment
-  print_jwt_token if development?
+load_environment
 
-  use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
-  use OmniAuth::Strategies::Twitter, ENV['TWITTER_CONSUMER_API_KEY'], ENV['TWITTER_CONSUMER_API_SECRET']
-  use JWTAuth
+class ApplicationController < Sinatra::Base
+  def self.inherited(subclass)
+    super
+    App.use subclass
+  end
 
   helpers AuthHelpers
+end
 
+class App < Sinatra::Base
   disable :show_exceptions
 
-  get '/' do
-    if request.env['jwt.payload']
-      puts "Authenticated as #{request.env['jwt.payload']['sub']}"
-    end
-    redirect '/auth/twitter'
-  end
+  print_jwt_token if development?
+  use JWTAuth
 
-  get '/auth/:name/callback' do
-    auth_hash = request.env['omniauth.auth']
-    user_attrs = {
-      username: auth_hash[:info][:nickname],
-      name: auth_hash[:info][:name],
-      access_token: auth_hash[:credentials][:token],
-      access_token_secret: auth_hash[:credentials][:secret]
-    }
-    user = User.register(user_attrs)
-    session[:user_id] = user.id
-    "Authenticated as #{auth_hash[:info][:name]}!<br>Token: #{auth_hash[:credentials][:token]}<br>Secret: #{auth_hash[:credentials][:secret]}"
-  end
-
-  post '/users/:username/tweets' do
-    check_user
-
-    user = User.lookup(params[:username])
-    if user
-      check_user user
-
-      client = twitter_client(user)
-      client.update(request.body.read)
-      status 201
-      'Tweet created'
-    else
-      status 404
-      'User not found'
-    end
-  end
-
-  def twitter_client(user)
-    Twitter::REST::Client.new do |config|
-      config.consumer_key = ENV['TWITTER_CONSUMER_API_KEY']
-      config.consumer_secret = ENV['TWITTER_CONSUMER_API_SECRET']
-      config.access_token = user.access_token
-      config.access_token_secret = user.access_token_secret
-    end
-  end
+  Dir['app/controllers/*.rb'].each { |controller| require controller }
 end
