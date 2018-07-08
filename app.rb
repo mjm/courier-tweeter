@@ -65,8 +65,12 @@ class App < Sinatra::Base
   end
 
   post '/users/:username/tweets' do
+    check_user
+
     user = User.lookup(params[:username])
     if user
+      check_user user
+
       client = twitter_client(user)
       client.update(request.body.read)
       status 201
@@ -78,6 +82,35 @@ class App < Sinatra::Base
   end
 
   helpers do
+    def current_user
+      return request.env['user'] if request.env['user']
+
+      jwt = request.env['jwt.payload']
+      return nil unless jwt
+
+      user = User.lookup(jwt['sub'])
+      return nil unless user
+
+      request.env['user'] = user
+      user
+    end
+
+    def service_client?
+      request.env.fetch('jwt.payload', {}).fetch('roles', []).include? 'service'
+    end
+
+    def check_user(user = nil)
+      return if service_client?
+
+      if user
+        return if current_user.id == user.id
+        error 403
+      else
+        return if current_user
+        error 401
+      end
+    end
+
     def twitter_client(user)
       Twitter::REST::Client.new do |config|
         config.consumer_key = ENV['TWITTER_CONSUMER_API_KEY']
