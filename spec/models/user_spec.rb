@@ -42,4 +42,26 @@ RSpec.describe User do
       end
     end
   end
+
+  describe 'looking up a user by username' do
+    let(:found_user) { User.lookup('example') }
+
+    context 'when the user does not exist' do
+      it 'returns nil' do
+        expect(found_user).to be_nil
+      end
+    end
+
+    context 'when the user exists' do
+      let(:registered_user) do
+        User.register username: 'example', name: 'Example'
+      end
+
+      before { registered_user }
+
+      it 'returns the user' do
+        expect(found_user).to eq registered_user
+      end
+    end
+  end
 end
