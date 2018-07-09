@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'rack/test'
 require 'webmock/rspec'
 require 'base64'
 
@@ -7,11 +8,12 @@ ENV['DB_URL'] = 'postgres:///courier_tweeter_test'
 ENV['JWT_SECRET'] = Base64.encode64(Random.new.bytes(32))
 ENV['SESSION_SECRET'] = 'super secret'
 
-$LOAD_PATH.unshift File.expand_path(File.join(__FILE__, '..', '..'))
+$LOAD_PATH.unshift File.expand_path(File.join(__dir__, '..'))
 require 'config/environment'
 require 'app'
 
 WebMock.disable_net_connect!
+OmniAuth.config.test_mode = true
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -31,4 +33,15 @@ RSpec.configure do |config|
   end
 end
 
-OmniAuth.config.test_mode = true
+module ControllerSpec
+  include Rack::Test::Methods
+
+  def app
+    App
+  end
+
+  def jwt(payload)
+    token = JWT.encode(payload, Base64.decode64(ENV['JWT_SECRET']), 'HS256')
+    header 'Authorization', "Bearer #{token}"
+  end
+end
