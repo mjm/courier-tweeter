@@ -1,3 +1,5 @@
+require 'twitter'
+
 class TweetsController < ApplicationController
   post '/users/:username/tweets' do
     check_user

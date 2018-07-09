@@ -1,11 +1,12 @@
+require 'omniauth'
+require 'omniauth-twitter'
+
 class AuthController < ApplicationController
   use Rack::Session::Cookie, secret: ENV['SESSION_SECRET']
   use OmniAuth::Strategies::Twitter, ENV['TWITTER_CONSUMER_API_KEY'], ENV['TWITTER_CONSUMER_API_SECRET']
 
   get '/' do
-    if token
-      puts "Authenticated as #{token.subject}"
-    end
+    puts "Authenticated as #{token.subject}" if token
     redirect '/auth/twitter'
   end
 

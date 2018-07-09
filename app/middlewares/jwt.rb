@@ -6,6 +6,7 @@ class JWTAuth
     @app = app
     @algorithm = algorithm
     @secret = secret
+    yield self if block_given?
   end
 
   def call(env)
@@ -18,6 +19,11 @@ class JWTAuth
     [401, { 'Content-Type' => 'text/plain' }, ['The authorization token provided was invalid.']]
   rescue JWT::ExpiredSignature
     [403, { 'Content-Type' => 'text/plain' }, ['The authorization token has expired.']]
+  end
+
+  def print_token(payload)
+    puts 'You can use the following token to log in:'
+    puts JWT.encode(payload, @secret, @algorithm)
   end
 
   private
