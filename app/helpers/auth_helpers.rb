@@ -1,4 +1,13 @@
 module AuthHelpers
+  def require_service_client
+    return if service_client?
+    if current_user
+      error 403
+    else
+      error 401
+    end
+  end
+
   def token
     request.env['jwt.token']
   end
