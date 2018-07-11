@@ -39,6 +39,18 @@ RSpec.describe UsersController do
         post '/users', attributes.to_json
         expect(User.lookup('example')).to have_attributes(attributes)
       end
+
+      let(:expected_json) do
+        attributes
+          .transform_keys(&:to_s)
+          .merge('id' => User.lookup('example').id)
+      end
+
+      it 'returns the user data as JSON' do
+        post '/users', attributes.to_json
+        expect(JSON.parse(last_response.body)).to eq expected_json
+        expect(last_response.headers['Content-Type']).to eq 'application/json'
+      end
     end
   end
 end
