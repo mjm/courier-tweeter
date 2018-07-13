@@ -13,7 +13,6 @@ require 'config/environment'
 require 'app'
 
 WebMock.disable_net_connect!
-OmniAuth.config.test_mode = true
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

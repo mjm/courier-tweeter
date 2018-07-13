@@ -2,8 +2,7 @@ source 'https://rubygems.org'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
-gem 'omniauth'
-gem 'omniauth-twitter'
+gem 'courier-service', github: 'mjm/courier-service'
 gem 'pg'
 gem 'puma'
 gem 'rack'

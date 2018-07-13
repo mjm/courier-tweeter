@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/mjm/courier-service
+  revision: 609729e26e32d1c1b7421255a13f96a06d445db8
+  specs:
+    courier-service (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -41,7 +47,6 @@ GEM
       os (~> 0.9)
       signet (~> 0.7)
     hashdiff (0.3.7)
-    hashie (3.5.7)
     http (3.3.0)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -68,16 +73,6 @@ GEM
     multipart-post (2.0.0)
     mustermann (1.0.2)
     naught (1.1.0)
-    oauth (0.5.4)
-    omniauth (1.8.1)
-      hashie (>= 3.4.6, < 3.6.0)
-      rack (>= 1.6.2, < 3)
-    omniauth-oauth (1.1.0)
-      oauth
-      omniauth (~> 1.0)
-    omniauth-twitter (1.4.0)
-      omniauth-oauth (~> 1.1)
-      rack
     os (0.9.6)
     pg (1.0.0)
     pry (0.11.3)
@@ -148,9 +143,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  courier-service!
   google-cloud-storage
-  omniauth
-  omniauth-twitter
   pg
   pry
   puma
