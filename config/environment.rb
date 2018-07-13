@@ -2,9 +2,6 @@ require 'sequel'
 require 'pathname'
 
 RACK_ENV = (ENV['RACK_ENV'] || 'development').to_sym
-DB = Sequel.connect(ENV['DB_URL'])
-
-autoload :User, 'app/models/user'
 
 if RACK_ENV == :production
   # load production environment settings
@@ -18,6 +15,10 @@ if RACK_ENV == :production
     ENV[$1] = $2 if line =~ /^export (\w+)="(.*)"$/
   end
 end
+
+DB = Sequel.connect(ENV['DB_URL'])
+
+autoload :User, 'app/models/user'
 
 def require_app(dir)
   Pathname

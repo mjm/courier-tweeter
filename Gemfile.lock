@@ -154,6 +154,7 @@ DEPENDENCIES
   pg
   pry
   puma
+  rack
   rack-test
   rake (~> 10.0)
   rspec (~> 3.0)
