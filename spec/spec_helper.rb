@@ -4,7 +4,7 @@ require 'webmock/rspec'
 require 'base64'
 
 ENV['RACK_ENV'] = 'test'
-ENV['DB_URL'] = 'postgres:///courier_tweeter_test'
+ENV['DATABASE_URL'] = 'postgres:///courier_tweeter_test'
 ENV['JWT_SECRET'] = Base64.encode64(Random.new.bytes(32))
 ENV['SESSION_SECRET'] = 'super secret'
 
