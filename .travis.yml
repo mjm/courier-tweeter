@@ -9,7 +9,7 @@ before_install:
 - gem install bundler -v 1.16.1
 before_script:
 - psql -c 'create database courier_tweeter_test;' -U postgres
-- DB_URL="postgres:///courier_tweeter_test" bundle exec rake db:migrate
+- DATABASE_URL="postgres:///courier_tweeter_test" bundle exec rake db:migrate
 services:
 - postgresql
 addons:
