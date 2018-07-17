@@ -15,5 +15,9 @@ services:
 addons:
   postgresql: '9.6'
 deploy:
-  provider: gae
-  project: stable-reactor-209402
+  provider: heroku
+  api_key:
+    secure: lHS6HF3PQwSawXhLVVeXiXGNuh4lta+n6CAFVs0tnioxcB7nIiGHuHtq+mnZzdiEW2h+5FLyzihqrAtwrfNTFcWkhq8HgfZoxFCI1KbvUOdOwI3YPGh06l7WnraOeQsznxZvWxsyp2Pv+kwA6UHGRhwdrnThpeLq/8CFcSHUg8VvSTRKHkHzAR33/96IE7mL/uch9Qn4ilm9crvVFYtb9gOZkikBCawfovt4ZbnVvVlYZ0XtkgONfjn01QWXzZ8JmoInpZKSiR8lOfUvoK2wTU6goX3JDhdaFPejjq4nhOXsJ8B21fCMDqOvsDEGHsZPQnxNBbRnAlCXWCXWgik+4NPwiPTuF302cxm5sfOFNhCUt0x9jvlas4GXQ1/vOzw3nYwMJ1ihL35MLdR7iD/7exSzZUzha5leVzZCqthEg00nhNBnvCwXtpWIW6f9D6mbV3ybuX32riryXATSJAzXS4wo9E0z9RLkpAinpQjCHOfsykqa8wvJsxrOUwqJTmh8XCsfcukACxIz7l75M1F8v00sWKLhpCxOQjSFkat2AeUDZjAly5d4N5JumMUkh/Kn9B9tqJsOhS6V7M/c6M018bme6NizBnlngMGtySbLIcNgpmrp1uDc6lwwCfp6rwShk4APSH7z3A+U+XUoZ3dy41zAcAUpec8MG2BaJfBlMUA=
+  app: courier-tweeter
+  on:
+    repo: mjm/courier-tweeter
