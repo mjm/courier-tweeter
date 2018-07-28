@@ -12,7 +12,7 @@ RSpec.describe TweeterHandler do
 
   shared_examples 'a forbidden response' do
     it 'returns a forbidden error' do
-      expect(response).to be_a_twirp_error :resource_exhausted
+      expect(response).to be_a_twirp_error :permission_denied
     end
   end
 
