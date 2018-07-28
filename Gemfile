@@ -4,12 +4,13 @@ ruby '2.5.1'
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 gem 'courier-service', github: 'mjm/courier-service'
+gem 'jwt'
 gem 'pg'
 gem 'puma'
 gem 'rack'
 gem 'rake', '~> 10.0'
 gem 'sequel'
-gem 'sinatra'
+gem 'twirp'
 gem 'twitter'
 
 group :development do
@@ -17,11 +18,6 @@ group :development do
 end
 
 group :test do
-  gem 'rack-test'
   gem 'rspec', '~> 3.0'
-  gem 'webmock'
-end
-
-group :production do
-  gem 'google-cloud-storage'
+  gem 'webmock', require: 'webmock/rspec'
 end

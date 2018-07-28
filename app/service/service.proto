@@ -1,0 +1,56 @@
+syntax = "proto3";
+package courier;
+
+/// Service for working with Twitter users and the Twitter API.
+service Tweeter {
+  /// Registers a Twitter user and their Twitter API credentials.
+  rpc RegisterUser(RegisterUserRequest) returns (User);
+  /// Posts a tweet to the Twitter account of a user.
+  rpc PostTweet(PostTweetRequest) returns (Tweet);
+}
+
+/**
+ * Request message for registering a Twitter user.
+ *
+ * This user may already be registered. If so, the user details will be updated.
+ */
+message RegisterUserRequest {
+  /// The Twitter handle of the user to register.
+  string username = 1;
+  /// The Twitter display name of the user to register.
+  string name = 2;
+  /// The OAuth token for the user in the Twitter API.
+  string access_token = 3;
+  /// The OAuth token secret for the user in the Twitter API.
+  string access_token_secret = 4;
+}
+
+/// Request message for posting a tweet to a registered user's Twitter account.
+message PostTweetRequest {
+  /// The Twitter handle of the user to post the tweet as.
+  string username = 1;
+  /// The tweet content to post.
+  string content = 2;
+}
+
+/// Message describing a user registered with the service.
+message User {
+  /// The unique identifier of the user in the service.
+  int32 id = 1;
+  /// The Twitter display name of the user.
+  string username = 2;
+  /// The Twitter display name of the user.
+  string name = 3;
+  /// The OAuth token for the user in the Twitter API.
+  string access_token = 4;
+  /// The OAuth token secret for the user in the Twitter API.
+  string access_token_secret = 5;
+}
+
+/// Message describing a tweet that was posted for a user.
+message Tweet {
+  /// The unique identifier of the tweet.
+  string id = 1;
+  /// The text of the tweet.
+  string text = 2;
+}

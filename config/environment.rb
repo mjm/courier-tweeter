@@ -1,19 +1,8 @@
-require 'sequel'
-require 'pathname'
-
 RACK_ENV = (ENV['RACK_ENV'] || 'development').to_sym
+Bundler.require(:default, RACK_ENV)
 
-DB = Sequel.connect(ENV['DATABASE_URL'])
+Courier::Service.configure do
+  root __dir__, '..'
 
-autoload :User, 'app/models/user'
-
-def require_app(dir)
-  Pathname
-    .new(__dir__)
-    .join('..', 'app', dir.to_s)
-    .glob('*.rb')
-    .each { |file| require file }
+  database
 end
-
-require_app :middlewares
-require_app :helpers

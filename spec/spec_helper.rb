@@ -1,7 +1,6 @@
 require 'bundler/setup'
-require 'rack/test'
-require 'webmock/rspec'
 require 'base64'
+require 'courier/rspec'
 
 ENV['RACK_ENV'] = 'test'
 ENV['DATABASE_URL'] = 'postgres:///courier_tweeter_test'
@@ -33,8 +32,6 @@ RSpec.configure do |config|
 end
 
 module ControllerSpec
-  include Rack::Test::Methods
-
   def app
     App
   end

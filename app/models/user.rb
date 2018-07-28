@@ -12,4 +12,14 @@ class User < Sequel::Model(DB[:users])
       where(username: username).first
     end
   end
+
+  def to_proto
+    Courier::User.new(
+      id: id,
+      username: username,
+      name: name,
+      access_token: access_token,
+      access_token_secret: access_token_secret
+    )
+  end
 end

@@ -1,8 +1,10 @@
 GIT
   remote: https://github.com/mjm/courier-service
-  revision: 609729e26e32d1c1b7421255a13f96a06d445db8
+  revision: 769db57f1a1b952f4d28422a1d497d4c3f72a093
   specs:
     courier-service (0.1.0)
+      jwt
+      twirp
 
 GEM
   remote: https://rubygems.org/
@@ -13,39 +15,13 @@ GEM
     coderay (1.1.2)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    declarative (0.0.10)
-    declarative-option (0.1.0)
     diff-lcs (1.3)
-    digest-crc (0.4.1)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
     faraday (0.15.2)
       multipart-post (>= 1.2, < 3)
-    google-api-client (0.23.2)
-      addressable (~> 2.5, >= 2.5.1)
-      googleauth (>= 0.5, < 0.7.0)
-      httpclient (>= 2.8.1, < 3.0)
-      mime-types (~> 3.0)
-      representable (~> 3.0)
-      retriable (>= 2.0, < 4.0)
-    google-cloud-core (1.2.2)
-      google-cloud-env (~> 1.0)
-    google-cloud-env (1.0.2)
-      faraday (~> 0.11)
-    google-cloud-storage (1.13.0)
-      digest-crc (~> 0.4)
-      google-api-client (~> 0.23)
-      google-cloud-core (~> 1.2)
-      googleauth (~> 0.6.2)
-    googleauth (0.6.2)
-      faraday (~> 0.12)
-      jwt (>= 1.4, < 3.0)
-      logging (~> 2.0)
-      memoist (~> 0.12)
-      multi_json (~> 1.11)
-      os (~> 0.9)
-      signet (~> 0.7)
+    google-protobuf (3.6.0)
     hashdiff (0.3.7)
     http (3.3.0)
       addressable (~> 2.3)
@@ -56,41 +32,20 @@ GEM
       domain_name (~> 0.5)
     http-form_data (2.1.1)
     http_parser.rb (0.6.0)
-    httpclient (2.8.3)
     jwt (2.1.0)
-    little-plugger (1.1.4)
-    logging (2.2.2)
-      little-plugger (~> 1.1)
-      multi_json (~> 1.10)
-    memoist (0.16.0)
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
     method_source (0.9.0)
-    mime-types (3.1)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2016.0521)
-    multi_json (1.13.1)
     multipart-post (2.0.0)
-    mustermann (1.0.2)
     naught (1.1.0)
-    os (0.9.6)
     pg (1.0.0)
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (3.0.2)
-    puma (3.11.4)
+    puma (3.12.0)
     rack (2.0.5)
-    rack-protection (2.0.3)
-      rack
-    rack-test (1.0.0)
-      rack (>= 1.0, < 3)
     rake (10.5.0)
-    representable (3.0.4)
-      declarative (< 0.1.0)
-      declarative-option (< 0.2.0)
-      uber (< 0.2.0)
-    retriable (3.1.2)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
@@ -106,19 +61,11 @@ GEM
     rspec-support (3.7.1)
     safe_yaml (1.0.4)
     sequel (5.10.0)
-    signet (0.8.1)
-      addressable (~> 2.3)
-      faraday (~> 0.9)
-      jwt (>= 1.5, < 3.0)
-      multi_json (~> 1.10)
     simple_oauth (0.3.1)
-    sinatra (2.0.3)
-      mustermann (~> 1.0)
-      rack (~> 2.0)
-      rack-protection (= 2.0.3)
-      tilt (~> 2.0)
     thread_safe (0.3.6)
-    tilt (2.0.8)
+    twirp (1.0.0)
+      faraday (~> 0)
+      google-protobuf (~> 3.0, >= 3.0.0)
     twitter (6.2.0)
       addressable (~> 2.3)
       buftok (~> 0.2.0)
@@ -130,7 +77,6 @@ GEM
       multipart-post (~> 2.0)
       naught (~> 1.0)
       simple_oauth (~> 0.3.0)
-    uber (0.1.0)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.5)
@@ -144,18 +90,20 @@ PLATFORMS
 
 DEPENDENCIES
   courier-service!
-  google-cloud-storage
+  jwt
   pg
   pry
   puma
   rack
-  rack-test
   rake (~> 10.0)
   rspec (~> 3.0)
   sequel
-  sinatra
+  twirp
   twitter
   webmock
+
+RUBY VERSION
+   ruby 2.5.1p57
 
 BUNDLED WITH
    1.16.1
