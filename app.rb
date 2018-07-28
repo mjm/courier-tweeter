@@ -55,3 +55,7 @@ class DocHandler
 end
 
 App = Courier::TweeterService.new(TweeterHandler.new)
+
+App.before do |rack_env, env|
+  env[:token] = rack_env['jwt.token']
+end
