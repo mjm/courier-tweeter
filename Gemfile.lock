@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/mjm/courier-service
-  revision: 769db57f1a1b952f4d28422a1d497d4c3f72a093
+  revision: a502df401454b51c45b24f77cabdc4c688592521
   specs:
     courier-service (0.1.0)
       jwt

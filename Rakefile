@@ -1,12 +1,14 @@
 require 'logger'
+require 'courier/rake_tasks'
 
 begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec)
 rescue LoadError
+  # no rspec available
 end
 
-task :default => :spec
+task default: :spec
 
 # Copied from Sequel's docs
 # http://sequel.jeremyevans.net/rdoc/files/doc/migration_rdoc.html#label-Running+migrations+from+a+Rake+task
@@ -20,8 +22,4 @@ namespace :db do
       Sequel::Migrator.run(db, "db/migrations", target: version)
     end
   end
-end
-
-task :proto do
-  sh 'protoc --ruby_out=. --twirp_ruby_out=. --doc_out=doc/ --doc_opt=html,index.html app/service/service.proto'
 end
