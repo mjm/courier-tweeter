@@ -13,8 +13,12 @@ class User < Sequel::Model(DB[:users])
     end
   end
 
-  def tweet(body)
-    twitter.update(body)
+  def tweet(request)
+    tweet = twitter.update(request.body)
+    Courier::Tweet.new(
+      id: tweet.id.to_s,
+      text: tweet.text
+    )
   end
 
   def to_proto

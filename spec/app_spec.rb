@@ -56,7 +56,7 @@ RSpec.describe TweeterHandler do
   end
 
   describe '#post_tweet' do
-    let(:request) { { username: 'example', content: 'This is my tweet text' } }
+    let(:request) { { username: 'example', body: 'This is my tweet text' } }
     let(:response) { subject.call_rpc(:PostTweet, request, env) }
 
     context 'when the client is not logged in' do

@@ -12,7 +12,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   end
   add_message "courier.PostTweetRequest" do
     optional :username, :string, 1
-    optional :content, :string, 2
+    optional :body, :string, 2
+    repeated :media_urls, :string, 3
   end
   add_message "courier.User" do
     optional :id, :int32, 1

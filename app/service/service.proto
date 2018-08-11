@@ -29,8 +29,10 @@ message RegisterUserRequest {
 message PostTweetRequest {
   /// The Twitter handle of the user to post the tweet as.
   string username = 1;
-  /// The tweet content to post.
-  string content = 2;
+  /// The tweet body content to post.
+  string body = 2;
+  /// The URLs of any media to attach to the tweet.
+  repeated string media_urls = 3;
 }
 
 /// Message describing a user registered with the service.
