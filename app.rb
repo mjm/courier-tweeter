@@ -14,7 +14,7 @@ class TweeterHandler
       user = User.lookup(req.username)
       if user
         require_user env, name: user.username, allow_service: true do
-          tweet = twitter_client(user).update(req.content)
+          tweet = user.tweet(req.content)
           Courier::Tweet.new(
             id: tweet.id.to_s,
             text: tweet.text
@@ -23,17 +23,6 @@ class TweeterHandler
       else
         Twirp::Error.not_found "No user found with username '#{req.username}'"
       end
-    end
-  end
-
-  private
-
-  def twitter_client(user)
-    Twitter::REST::Client.new do |config|
-      config.consumer_key = ENV['TWITTER_CONSUMER_API_KEY']
-      config.consumer_secret = ENV['TWITTER_CONSUMER_API_SECRET']
-      config.access_token = user.access_token
-      config.access_token_secret = user.access_token_secret
     end
   end
 end
