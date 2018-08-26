@@ -75,14 +75,16 @@ RSpec.describe TweeterHandler do
     context 'when the user exists' do
       STATUS_UPDATE_URL = 'https://api.twitter.com/1.1/statuses/update.json'.freeze
       let(:tweet) { Pathname.new(__dir__).join('fixtures', 'tweet.json') }
-
-      before do
+      let!(:user) do
         User.register(
           name: 'Example User',
           username: 'example',
           access_token: 'token',
           access_token_secret: 'secret'
         )
+      end
+
+      before do
         User.register(name: 'Someone Else', username: 'someoneelse')
         stub_request(:post, STATUS_UPDATE_URL).to_return(
           body: File.new(tweet),
@@ -106,9 +108,9 @@ RSpec.describe TweeterHandler do
 
         it 'posts the tweet to Twitter' do
           response
-          expect(a_request(:post, STATUS_UPDATE_URL).with({
+          expect(a_request(:post, STATUS_UPDATE_URL).with(
             body: { status: 'This is my tweet text' }
-          })).to have_been_made
+          )).to have_been_made
         end
       end
 
@@ -122,6 +124,15 @@ RSpec.describe TweeterHandler do
         let(:env) do
           { token: Token.new('sub' => 'courier-posts', 'roles' => ['service']) }
         end
+
+        include_examples 'successful request'
+      end
+
+      context 'and the user is specified by user ID' do
+        let(:env) do
+          { token: Token.new('sub' => 'courier-posts', 'roles' => ['service']) }
+        end
+        let(:request) { { user_id: user.id, body: 'This is my tweet text' } }
 
         include_examples 'successful request'
       end

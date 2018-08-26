@@ -11,14 +11,23 @@ class TweeterHandler
 
   def post_tweet(req, env)
     require_token env do
-      user = User.lookup(req.username)
-      if user
+      if (user = request_user(req))
         require_user env, name: user.username, allow_service: true do
           user.tweet(req)
         end
       else
         Twirp::Error.not_found "No user found with username '#{req.username}'"
       end
+    end
+  end
+
+  private
+
+  def request_user(req)
+    if req.user_id != 0
+      User[req.user_id]
+    else
+      User.lookup(req.username)
     end
   end
 end

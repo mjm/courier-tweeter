@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/mjm/courier-service
-  revision: 96f17af42aa1472079bedea264912e386c25e028
+  revision: 8b6319b3cb61033be577a2b7c60f1e0964559e92
   specs:
     courier-service (0.1.0)
       jwt
@@ -21,7 +21,7 @@ GEM
     equalizer (0.0.11)
     faraday (0.15.2)
       multipart-post (>= 1.2, < 3)
-    google-protobuf (3.6.0)
+    google-protobuf (3.6.1)
     hashdiff (0.3.7)
     http (3.3.0)
       addressable (~> 2.3)
